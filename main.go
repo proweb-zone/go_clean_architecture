@@ -1,13 +1,21 @@
 package main
 
 import (
-	"fmt"
-
 	"clean/architector/internal/adapters/productrepo/postgresql"
+	"fmt"
 )
 
+type ProductRepoInterface interface {
+	GetProductById(productId int)
+}
+
 func main() {
-	test := postgresql.GetProductById(1)
-	fmt.Println(test.Name)
-	fmt.Println("main go success")
+	newProductRepo := postgresql.NewProductRepo(1)
+
+	get1(newProductRepo)
+
+}
+
+func get1(p ProductRepoInterface) {
+fmt.Println(p.GetProductById(1))
 }
