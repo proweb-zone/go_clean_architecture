@@ -1,20 +1,20 @@
 package postgresql
 
-type ProductRepo struct {
-	ProductId int
-}
-
 type Employee struct {
 	Id   int
 	Name string
 	Desc string
 }
 
+type ProductRepo struct {
+	ProductId int
+}
+
 func NewProductRepo(productId int) *ProductRepo {
 	return &ProductRepo{ProductId: productId}
 }
 
-func GetProductById(productId int) *Employee {
+func (p ProductRepo) GetProductById(productId int) *Employee {
 
 	employees := map[string]Employee{
 		"Лампа": {
