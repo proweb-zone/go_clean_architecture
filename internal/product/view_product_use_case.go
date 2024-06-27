@@ -1,21 +1,19 @@
 package product
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type ViewProductUseCase struct {
-	productRepo ProductRepo
+	productRepoInterface ProductRepoInterface
 }
 
-func NewViewProductUseCase(productRepo ProductRepo) *ViewProductUseCase {
-return &ViewProductUseCase{productRepo: productRepo}
+func NewViewProductUseCase(productRepoInterface ProductRepoInterface) *ViewProductUseCase {
+return &ViewProductUseCase{productRepoInterface: productRepoInterface}
 }
 
-func (u *ViewProductUseCase) Run(productId int) {
-product, err := u.productRepo.getProductById(productId)
-
-if err != nil {
-fmt.Println("есть ошибки получения данных")
-}
+func (u ViewProductUseCase) Run(productId int) {
+var product = u.productRepoInterface.GetProductById(productId)
 
 fmt.Println(product)
 
