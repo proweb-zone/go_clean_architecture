@@ -1,10 +1,6 @@
 package postgresql
 
-type Employee struct {
-	Id   int
-	Name string
-	Desc string
-}
+import "clean/architector/internal/product"
 
 type ProductRepo struct {
 	ProductId int
@@ -14,9 +10,9 @@ func NewProductRepo(productId int) *ProductRepo {
 	return &ProductRepo{ProductId: productId}
 }
 
-func (p ProductRepo) GetProductById(productId int) *Employee {
+func (p *ProductRepo) GetProductById(productId int) product.Employee {
 
-	employees := map[string]Employee{
+	employees := map[string]product.Employee{
 		"Лампа": {
 			Id:   1,
 			Name: "Лампа",
@@ -39,12 +35,12 @@ func (p ProductRepo) GetProductById(productId int) *Employee {
 		},
 	}
 
-	newEmploye := new(Employee)
+	var newEmploye = product.Employee{}
 
 	for _, employee := range employees {
 
 		if productId == employee.Id {
-			(*newEmploye) = employee
+			newEmploye = employee
 			break
 		}
 
