@@ -5,13 +5,11 @@ import (
 	"clean/architector/internal/core/product"
 )
 
-type ProductUseCaseInterface interface {
+type IproductUseCase interface {
 	Run(productId int)
 }
 
-
 func main() {
-	var portProductRepo product.ProductRepoInterface = postgresql.NewProductRepo(1)
-	var productUseCaseInterface ProductUseCaseInterface = product.NewViewProductUseCase(portProductRepo)
-	productUseCaseInterface.Run(1)
+	var iProductUseCase IproductUseCase = product.NewViewProductUseCase(postgresql.NewProductRepo(1))
+	iProductUseCase.Run(1)
 }

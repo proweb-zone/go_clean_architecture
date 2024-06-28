@@ -1,5 +1,5 @@
 package product
 
-type ProductRepoInterface interface {
+type IproductRepo interface {
 	GetProductById(productId int) Employee
 }

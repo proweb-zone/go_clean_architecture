@@ -5,16 +5,16 @@ import (
 )
 
 type ViewProductUseCase struct {
-	productRepoInterface ProductRepoInterface
+	iProductRepo IproductRepo
 }
 
-func NewViewProductUseCase(productRepoInterface ProductRepoInterface) *ViewProductUseCase {
-return &ViewProductUseCase{productRepoInterface: productRepoInterface}
+func NewViewProductUseCase(iProductRepo IproductRepo) *ViewProductUseCase {
+	return &ViewProductUseCase{iProductRepo: iProductRepo}
 }
 
 func (u ViewProductUseCase) Run(productId int) {
-var product = u.productRepoInterface.GetProductById(productId)
+	var product = u.iProductRepo.GetProductById(productId)
 
-fmt.Println(product)
+	fmt.Println(product)
 
 }
