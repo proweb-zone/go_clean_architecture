@@ -1,6 +1,6 @@
 package postgresql
 
-import "clean/architector/internal/product"
+import "clean/architector/internal/core/product"
 
 type ProductRepo struct {
 	ProductId int

@@ -1,6 +1,6 @@
 package product
 
-type Product struct {
+type Employee struct {
 	Id   int
 	Name string
 	Desc string

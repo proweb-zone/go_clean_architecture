@@ -2,7 +2,7 @@ package main
 
 import (
 	"clean/architector/internal/adapters/productrepo/postgresql"
-	"clean/architector/internal/product"
+	"clean/architector/internal/core/product"
 )
 
 type ProductUseCaseInterface interface {
