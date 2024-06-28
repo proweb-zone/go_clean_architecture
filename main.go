@@ -10,6 +10,7 @@ type IproductUseCase interface {
 }
 
 func main() {
-	var iProductUseCase IproductUseCase = product.NewViewProductUseCase(postgresql.NewProductRepo(1))
-	iProductUseCase.Run(1)
+	var productId int = 2
+	var iProductUseCase IproductUseCase = product.NewViewProductUseCase(postgresql.NewProductRepo(productId))
+	iProductUseCase.Run(productId)
 }

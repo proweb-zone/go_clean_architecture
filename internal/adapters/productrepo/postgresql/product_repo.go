@@ -11,7 +11,6 @@ func NewProductRepo(productId int) *ProductRepo {
 }
 
 func (p *ProductRepo) GetProductById(productId int) product.Employee {
-
 	employees := map[string]product.Employee{
 		"Лампа": {
 			Id:   1,
