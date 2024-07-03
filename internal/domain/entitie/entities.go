@@ -1,5 +1,6 @@
-package product
+package entitie
 
+// Empoloyee structure
 type Employee struct {
 	Id   int
 	Name string
