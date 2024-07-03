@@ -37,7 +37,6 @@ func (p *ProductRepo) GetProductById(productId int) entitie.Employee {
 	var newEmploye = entitie.Employee{}
 
 	for _, employee := range employees {
-
 		if productId == employee.Id {
 			newEmploye = employee
 			break
@@ -46,5 +45,4 @@ func (p *ProductRepo) GetProductById(productId int) entitie.Employee {
 	}
 
 	return newEmploye
-
 }

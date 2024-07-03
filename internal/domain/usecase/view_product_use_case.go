@@ -15,7 +15,5 @@ func NewViewProductUseCase(iProductRepo adapter.IproductRepo) *ViewProductUseCas
 
 func (u ViewProductUseCase) Run(productId int) {
 	var product = u.iProductRepo.GetProductById(productId)
-
 	fmt.Println(product)
-
 }
