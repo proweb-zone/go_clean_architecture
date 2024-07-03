@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
+	"clean/architector/internal/domain/entitie"
+	"clean/architector/internal/domain/repository"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
@@ -14,10 +17,11 @@ type Server struct {
 }
 
 func NewServer(cfg *Config) *Server {
-	return &Server{Host: cfg.Address}
+	return &Server{Host: cfg.HTTPServer.Address}
 }
 
 func (c *Server) StartServer() {
+	fmt.Println("start server")
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Post("/kafka/topic/{topic_name}", addMsgInKafka)
@@ -26,22 +30,20 @@ func (c *Server) StartServer() {
 }
 
 func addMsgInKafka(w http.ResponseWriter, r *http.Request) {
-	// topicName := chi.URLParam(r, "topic_name")
+	topicName := chi.URLParam(r, "topic_name")
 
-	var data Data
+	var newMsgTopic entitie.MsgTopic
 	decoder := json.NewDecoder(r.Body)
 
-	err := decoder.Decode(&data)
+	fmt.Println(topicName)
+	fmt.Println(newMsgTopic)
+
+	err := decoder.Decode(&newMsgTopic)
 	if err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
 		return
 	}
 
-	fmt.Println(data)
+	repository.AddMsgToTopic(topicName, newMsgTopic)
 
-}
-
-type Data struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
 }
