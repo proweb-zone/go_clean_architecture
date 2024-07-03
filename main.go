@@ -4,6 +4,7 @@ import (
 	"clean/architector/internal/app"
 	"clean/architector/internal/domain/repository"
 	"clean/architector/internal/domain/usecase"
+	"fmt"
 )
 
 type IproductUseCase interface {
@@ -11,6 +12,12 @@ type IproductUseCase interface {
 }
 
 func main() {
+
+	cfg := app.MustLoad()
+
+	fmt.Println(cfg)
+
+	return
 
 	var c *app.Context = app.NewContext()
 	c.StartWebServer()
