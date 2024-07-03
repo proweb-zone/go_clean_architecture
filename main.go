@@ -1,10 +1,11 @@
 package main
 
 import (
+	"log/slog"
+
 	"clean/architector/internal/app"
 	"clean/architector/internal/domain/repository"
 	"clean/architector/internal/domain/usecase"
-	"log/slog"
 )
 
 type IproductUseCase interface {

@@ -18,7 +18,7 @@ func NewServer(cfg *Config) *Server {
 func (c *Server) StartServer() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/kafka/topic/:topic_name", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})
 
