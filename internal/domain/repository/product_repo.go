@@ -1,6 +1,6 @@
-package postgresql
+package repository
 
-import "clean/architector/internal/core/product"
+import "clean/architector/internal/domain/entitie"
 
 type ProductRepo struct {
 	ProductId int
@@ -10,8 +10,8 @@ func NewProductRepo(productId int) *ProductRepo {
 	return &ProductRepo{ProductId: productId}
 }
 
-func (p *ProductRepo) GetProductById(productId int) product.Employee {
-	employees := map[string]product.Employee{
+func (p *ProductRepo) GetProductById(productId int) entitie.Employee {
+	employees := map[string]entitie.Employee{
 		"Лампа": {
 			Id:   1,
 			Name: "Лампа",
@@ -34,7 +34,7 @@ func (p *ProductRepo) GetProductById(productId int) product.Employee {
 		},
 	}
 
-	var newEmploye = product.Employee{}
+	var newEmploye = entitie.Employee{}
 
 	for _, employee := range employees {
 

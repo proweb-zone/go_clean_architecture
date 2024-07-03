@@ -27,12 +27,13 @@ func NewContext() *Context {
 
 func (c *Context) StartWebServer() {
 	r := chi.NewRouter()
+
 	r.Use(middleware.Logger)
+
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})
 
-	var host string = fmt.Sprintf(c.Host+":"+c.Port)
-	fmt.Println(host)
+	var host string = fmt.Sprintf(c.Host + ":" + c.Port)
 	http.ListenAndServe(host, r)
 }
