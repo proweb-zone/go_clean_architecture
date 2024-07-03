@@ -4,7 +4,7 @@ import (
 	"clean/architector/internal/app"
 	"clean/architector/internal/domain/repository"
 	"clean/architector/internal/domain/usecase"
-	"fmt"
+	"log/slog"
 )
 
 type IproductUseCase interface {
@@ -13,14 +13,21 @@ type IproductUseCase interface {
 
 func main() {
 
-	cfg := app.MustLoad()
+	cfg := app.MustLoad()           // load config file local.yaml
+	log := app.SetupLogger(cfg.Env) // setup custom Logger
 
-	fmt.Println(cfg)
+	log.Info(
+		"starting url-shortener",
+		slog.String("env", cfg.Env),
+		slog.String("version", "123"),
+	)
+
+	log.Debug("debug messages are enabled")
+
+	var c *app.Server = app.NewServer(cfg)
+	c.StartServer()
 
 	return
-
-	var c *app.Context = app.NewContext()
-	c.StartWebServer()
 
 	var productId int = 2
 	var iProductUseCase IproductUseCase = usecase.NewViewProductUseCase(repository.NewProductRepo(productId))
