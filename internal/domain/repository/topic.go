@@ -11,6 +11,9 @@ import (
 
 func AddMsgToTopic(topicName string, newMsgTopic entitie.MsgTopic) {
 
+	fmt.Println(topicName)
+	fmt.Println(newMsgTopic)
+
 	p, err := kafka.NewProducer(&kafka.ConfigMap{
 		"bootstrap.servers": "0.0.0.0:29092",
 		"client.id":         "localhost",
@@ -37,13 +40,13 @@ func AddMsgToTopic(topicName string, newMsgTopic entitie.MsgTopic) {
 		}
 	}()
 
-	// p.Produce(&kafka.Message{
-	// 	TopicPartition: kafka.TopicPartition{Topic: &topicName, Partition: kafka.PartitionAny},
-	// 	Key:            []byte(newMsgTopic.Id),
-	// 	Value:          []byte(newMsgTopic.Msg),
-	// }, nil)
+	p.Produce(&kafka.Message{
+		TopicPartition: kafka.TopicPartition{Topic: &topicName, Partition: kafka.PartitionAny},
+		Key:            []byte(newMsgTopic.Id),
+		Value:          []byte(newMsgTopic.Msg),
+	}, nil)
 
-	// p.Flush(3 * 1000)
-	// p.Close()
+	p.Flush(3 * 1000)
+	p.Close()
 
 }

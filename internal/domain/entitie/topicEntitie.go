@@ -1,6 +1,6 @@
 package entitie
 
 type MsgTopic struct {
-	Id string `json:"id"`
-	Msg string `json:"msg"`
+	Id  string `json:"Id"`
+	Msg string `json:"Msg"`
 }

@@ -35,9 +35,6 @@ func addMsgInKafka(w http.ResponseWriter, r *http.Request) {
 	var newMsgTopic entitie.MsgTopic
 	decoder := json.NewDecoder(r.Body)
 
-	fmt.Println(topicName)
-	fmt.Println(newMsgTopic)
-
 	err := decoder.Decode(&newMsgTopic)
 	if err != nil {
 		http.Error(w, "Invalid JSON", http.StatusBadRequest)
