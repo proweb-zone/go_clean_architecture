@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"clean/architector/internal/domain/adapter"
 	"clean/architector/internal/domain/entitie"
 	"clean/architector/internal/domain/repository"
 
@@ -41,6 +42,11 @@ func addMsgInKafka(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	repository.AddMsgToTopic(topicName, newMsgTopic)
+	var iTopicrepo adapter.ItopicRepo = repository.NewMsgTopic(topicName, newMsgTopic.Msg)
+
+	fmt.Println(iTopicrepo)
+
+	// iTopicUseCase := usecase.NewMsgTopic()
+	// repository.AddMsgToTopic(topicName, newMsgTopic)
 
 }
