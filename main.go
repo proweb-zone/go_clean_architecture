@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log/slog"
+	// "log/slog"
 
 	"clean/architector/internal/app"
 	"clean/architector/internal/domain/repository"
@@ -14,16 +14,16 @@ type IproductUseCase interface {
 
 func main() {
 
-	cfg := app.MustLoad()           // load config file local.yaml
-	log := app.SetupLogger(cfg.Env) // setup custom Logger
+	cfg := app.MustLoad() // load config file local.yaml
+	// log := app.SetupLogger(cfg.Env) // setup custom Logger
 
-	log.Info(
-		"starting url-shortener",
-		slog.String("env", cfg.Env),
-		slog.String("version", "123"),
-	)
+	// log.Info(
+	// 	"starting url-shortener",
+	// 	slog.String("env", cfg.Env),
+	// 	slog.String("version", "123"),
+	// )
 
-	log.Debug("debug messages are enabled")
+	// log.Debug("debug messages are enabled")
 
 	var c *app.Server = app.NewServer(cfg)
 	c.StartServer()
