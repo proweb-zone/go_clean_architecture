@@ -8,6 +8,7 @@ import (
 	"clean/architector/internal/domain/adapter"
 	"clean/architector/internal/domain/entitie"
 	"clean/architector/internal/domain/repository"
+	"clean/architector/internal/domain/usecase"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -25,13 +26,18 @@ func (c *Server) StartServer() {
 	fmt.Println("start server")
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Post("/kafka/topic/{topic_name}", addMsgInKafka)
+	r.Post("/kafka/topic/{topic_name}", sendMsgToTopicHandler)
 
 	http.ListenAndServe(c.Host, r)
 }
 
-func addMsgInKafka(w http.ResponseWriter, r *http.Request) {
-	topicName := chi.URLParam(r, "topic_name")
+func sendMsgToTopicHandler(w http.ResponseWriter, r *http.Request) {
+	var topicName string = chi.URLParam(r, "topic_name")
+
+	if topicName == "" {
+		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		return
+	}
 
 	var newMsgTopic entitie.MsgTopic
 	decoder := json.NewDecoder(r.Body)
@@ -42,11 +48,8 @@ func addMsgInKafka(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var iTopicrepo adapter.ItopicRepo = repository.NewMsgTopic(topicName, newMsgTopic.Msg)
-
-	fmt.Println(iTopicrepo)
-
-	// iTopicUseCase := usecase.NewMsgTopic()
-	// repository.AddMsgToTopic(topicName, newMsgTopic)
+	var iTopicrepo adapter.ItopicRepo = repository.InitTopicRepo(topicName, newMsgTopic.Msg)
+	var topicUseCase *usecase.TopicUseCase = usecase.InitTopicUseCase(iTopicrepo)
+	topicUseCase.SendMsgToTopic()
 
 }
