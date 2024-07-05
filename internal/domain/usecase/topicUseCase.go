@@ -1,15 +1,15 @@
 package usecase
 
 import (
-	"clean/architector/internal/domain/adapter"
+	"clean/architector/internal/domain/repository"
 	"fmt"
 )
 
 type TopicUseCase struct {
-	ITopicRepo adapter.ItopicRepo
+	ITopicRepo repository.ItopicRepo
 }
 
-func InitTopicUseCase(iTopicRepo adapter.ItopicRepo) *TopicUseCase {
+func InitTopicUseCase(iTopicRepo repository.ItopicRepo) *TopicUseCase {
 	return &TopicUseCase{ITopicRepo: iTopicRepo}
 }
 

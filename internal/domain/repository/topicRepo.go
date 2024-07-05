@@ -11,6 +11,10 @@ type TopicRepo struct {
 	MsgTopic  string
 }
 
+type ItopicRepo interface {
+	NewMsgToTopic()
+}
+
 func InitTopicRepo(topicId string, msgTopic string) *TopicRepo {
 	return &TopicRepo{TopicName: topicId, MsgTopic: msgTopic}
 }
