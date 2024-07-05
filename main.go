@@ -4,8 +4,6 @@ import (
 	// "log/slog"
 
 	"clean/architector/internal/app"
-	"clean/architector/internal/domain/repository"
-	"clean/architector/internal/domain/usecase"
 )
 
 type IproductUseCase interface {
@@ -15,6 +13,7 @@ type IproductUseCase interface {
 func main() {
 
 	cfg := app.MustLoad() // load config file local.yaml
+
 	// log := app.SetupLogger(cfg.Env) // setup custom Logger
 
 	// log.Info(
@@ -27,10 +26,4 @@ func main() {
 
 	var c *app.Server = app.NewServer(cfg)
 	c.StartServer()
-
-	return
-
-	var productId int = 2
-	var iProductUseCase IproductUseCase = usecase.NewViewProductUseCase(repository.NewProductRepo(productId))
-	iProductUseCase.Run(productId)
 }
