@@ -24,11 +24,11 @@ func AddMsgToTopicHandler(w http.ResponseWriter, r *http.Request) {
 
 	err := decoder.Decode(&newMsgTopic)
 	if err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
+		http.Error(w, "Body MsgTopic not exist", http.StatusBadRequest)
 		return
 	}
 
-	var iTopicrepo adapter.ItopicRepo = repository.InitTopicRepo(topicName, newMsgTopic.Msg)
-	var topicUseCase *usecase.TopicUseCase = usecase.InitTopicUseCase(iTopicrepo)
-	topicUseCase.SendMsgToTopic()
+	var iTopicrepo repository.ItopicRepo = repository.InitTopicRepo(topicName, newMsgTopic.Msg)
+	var iTopicUseCase adapter.ItopicUseCase = usecase.InitTopicUseCase(iTopicrepo)
+	iTopicUseCase.SendMsgToTopic()
 }
