@@ -1,5 +1,0 @@
-hello CreateConsumerHandler
-hello CreateConsumerHandler
-hello CreateConsumerHandler
-hello CreateConsumerHandler
-hello CreateConsumerHandler

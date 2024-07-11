@@ -24,5 +24,7 @@ func (c *Server) StartServer() {
 	r.Use(middleware.Logger)
 	r.Post("/kafka/topic/{topic_name}", web.AddMsgToTopicHandler)
 	r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
+	r.Get("/test", web.TestHandler)
+	r.Get("/test2", web.TestHandler2)
 	http.ListenAndServe(c.Host, r)
 }
