@@ -8,10 +8,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	_ "github.com/lib/pq"
 )
 
 type Server struct {
 	Host string
+	Cfg *Config
 }
 
 func NewServer(cfg *Config) *Server {
@@ -20,11 +22,12 @@ func NewServer(cfg *Config) *Server {
 
 func (c *Server) StartServer() {
 	fmt.Println("start server")
+
+	web.StartListenerHandler()
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Post("/kafka/topic/{topic_name}", web.AddMsgToTopicHandler)
-	r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
-	r.Get("/test", web.TestHandler)
-	r.Get("/test2", web.TestHandler2)
+	// r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
 	http.ListenAndServe(c.Host, r)
 }

@@ -12,6 +12,7 @@ type Config struct {
 	Env        string `yaml:"env" env-default:"local"`
 	HTTPServer `yaml:"http_server"`
 	Kafka `yaml:"kafka"`
+	Postgresql `yaml:"postgresql"`
 }
 
 type HTTPServer struct {
@@ -22,6 +23,13 @@ type HTTPServer struct {
 
 type Kafka struct {
 	Address string `yaml:"address" env-default:"localhost:29092"`
+}
+
+type Postgresql struct {
+	HOST string `yaml:"host"`
+	POSTGRES_DB string `yaml:"postgres_db"`
+	POSTGRES_USER string `yaml:"postgres_user"`
+	POSTGRES_PASSWORD string `yaml:"postgres_password"`
 }
 
 func MustLoad() *Config {

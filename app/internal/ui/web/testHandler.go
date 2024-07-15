@@ -34,7 +34,9 @@ topic := r.URL.Query().Get("topic")
 if action == "close" {
 	fmt.Println(jobs)
 	jobs[topic].Cancel()
-} else {
+	return
+}
+
 	for _, name := range names {
 		ctx, cancel := context.WithCancel(context.Background())
 
@@ -46,7 +48,6 @@ if action == "close" {
 
 		go startTestGoroutines(ctx, name)
 		}
-	}
 }
 
 

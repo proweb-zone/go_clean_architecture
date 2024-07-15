@@ -26,6 +26,7 @@ fmt.Println("consumerUseCase Run()")
 ctx, cancel := context.WithCancel(context.Background())
 ctx = context.WithValue(ctx, "consumers", topicName)
 
+
 go createConsumer(ctx)
 
 if action == "close" {
@@ -34,17 +35,23 @@ if action == "close" {
 
 }
 
+func deleteConsumer(ctx context.Context, done chan struct {}){
+	name := ctx.Value("consumers").(string)
+	for {
+			select {
+	 case <-ctx.Done():
+		fmt.Println("Удаляем горутину "+name)
+			 return
+			default:
+				// Делать что-то
+			}
+	}
+
+ }
+
  func createConsumer(ctx context.Context){
 	name := ctx.Value("consumers").(string)
 	fmt.Println("Создаем consumer "+name)
-
-	for {
-		select {
- case <-ctx.Done():
-	fmt.Println("Удаляем горутину "+name)
-		 return
-		default:
-			// Делать что-то
 
 	c, err := kafka.NewConsumer(&kafka.ConfigMap{
 		"bootstrap.servers": "0.0.0.0:29092",
@@ -78,10 +85,8 @@ if action == "close" {
 			fmt.Printf("Consumer error: %v (%v)\n", err, msg)
 		}
 	}
-	c.Close()
-}
-}
 
+	c.Close()
  }
 
  func writeToFile(msg string){
