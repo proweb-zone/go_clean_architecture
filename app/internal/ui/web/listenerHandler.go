@@ -1,23 +1,32 @@
 package web
 
 import (
-	"clean/architector/internal/data/postgresql"
+	"clean/architector/internal/domain/entitie"
 	"clean/architector/internal/domain/repository"
 	"clean/architector/internal/domain/usecase"
-	"database/sql"
+	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
-func StartListenerHandler(){
-var db *sql.DB = postgresql.ConnPg()
-
-var iListenerRepo repository.IlistenerRepo = repository.InitListenerRepo(db)
-usecase.StartListeners(iListenerRepo)
+func StartListenersHandler(){
+fmt.Println("StartListenerHandler - запуск слушателей событий")
+var listenerRepo repository.IlistenerRepo = repository.InitListenerRepo()
+usecase.StartListenersUseCase(listenerRepo)
 }
 
-func AddListener(){
- // TODO
-}
+func CreateListener(w http.ResponseWriter, r *http.Request){
+fmt.Println("CreateListener - Добавляем слушателя")
 
-func DeleteListener(){
-// TODO
+var newListener entitie.ListenerEntitie
+decoder := json.NewDecoder(r.Body)
+
+err := decoder.Decode(&newListener)
+	if err != nil {
+		http.Error(w, "Body MsgTopic not exist", http.StatusBadRequest)
+		return
+	}
+
+	fmt.Println(newListener)
+
 }

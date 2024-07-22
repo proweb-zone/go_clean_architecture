@@ -5,8 +5,9 @@ http_server:
   idle_timeout: 60s
 kafka:
   address: "localhost:29092"
-postgresql:
-  host: "localhost:5433"
-  postgres_db: "kafka_db"
-  postgres_user: "kafka_user"
-  postgres_password: "kafka_user"
+DB:
+  host: "localhost"
+  port: "5433"
+  name_db: "kafka_db"
+  user_db: "kafka_user"
+  password_db: "kafka_user"

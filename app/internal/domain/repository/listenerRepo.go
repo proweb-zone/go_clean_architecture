@@ -1,25 +1,26 @@
 package repository
 
 import (
-	"database/sql"
+	"clean/architector/internal/data/postgresql"
 	"fmt"
 )
 
 type ListenerRepo struct {
-	Conn *sql.DB
+	Conn postgresql.IConnectionDb
 }
 
 type IlistenerRepo interface {
 	GetListenerList()
 }
 
-func InitListenerRepo(conn *sql.DB) *ListenerRepo {
-	return &ListenerRepo{Conn: conn}
+func InitListenerRepo() *ListenerRepo {
+	var connDb postgresql.IConnectionDb = postgresql.BuildConnPg()
+	return &ListenerRepo{Conn: connDb}
 }
 
 func (l *ListenerRepo) GetListenerList() {
-// TODO
-fmt.Println(l.Conn)
+fmt.Println("получаем список слушателей")
+
 }
 
 func ChangeStatusListener(status bool){
