@@ -4,7 +4,7 @@ import (
 	"clean/architector/internal/domain/repository"
 )
 
-func StartListeners(listenerRepo repository.IlistenerRepo){
+func StartListenersUseCase(listenerRepo repository.IlistenerRepo){
 listenerRepo.GetListenerList()
 
 // получаем список слушателей из БД

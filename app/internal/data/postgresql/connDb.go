@@ -1,18 +1,28 @@
 package postgresql
 
 import (
-	"clean/architector/internal/app"
 	"database/sql"
 )
 
-func ConnPg() *sql.DB {
-	cfg := app.MustLoad()
-	connStr := "user="+cfg.Postgresql.POSTGRES_USER+" password="+cfg.Postgresql.POSTGRES_PASSWORD+" dbname="+cfg.Postgresql.POSTGRES_DB+" sslmode=disable"
+type Connection struct {
+	Conn *sql.DB
+}
+
+type IConnectionDb interface {
+	ConnDb() *sql.DB
+}
+
+func BuildConnPg() *Connection {
+	connStr := "host=localhost port=5433 user=kafka_user password=kafka_user dbname=kafka_db sslmode=disable"
 
 	db, err := sql.Open("postgres", connStr)
     if err != nil {
         panic(err)
     }
 
-	return db
+	return &Connection{Conn: db}
+}
+
+func (c * Connection) ConnDb() *sql.DB {
+return c.Conn
 }
