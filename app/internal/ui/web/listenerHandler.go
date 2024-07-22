@@ -27,6 +27,5 @@ err := decoder.Decode(&newListener)
 		return
 	}
 
-	fmt.Println(newListener)
-
+	usecase.AddListenerUseCase(newListener)
 }

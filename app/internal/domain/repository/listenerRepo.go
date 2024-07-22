@@ -2,6 +2,9 @@ package repository
 
 import (
 	"clean/architector/internal/data/postgresql"
+	"clean/architector/internal/domain/entitie"
+	"database/sql"
+	"encoding/json"
 	"fmt"
 )
 
@@ -11,6 +14,7 @@ type ListenerRepo struct {
 
 type IlistenerRepo interface {
 	GetListenerList()
+	AddListenerDb(newListener entitie.ListenerEntitie)
 }
 
 func InitListenerRepo() *ListenerRepo {
@@ -23,6 +27,24 @@ fmt.Println("получаем список слушателей")
 
 }
 
-func ChangeStatusListener(status bool){
-// TODO
+func (l *ListenerRepo) AddListenerDb(newListener entitie.ListenerEntitie){
+fmt.Println("listenerRepo - AddListenerDb")
+var db *sql.DB = l.Conn.ConnDb()
+
+	jsonBytes, jsonErrorObj := json.Marshal(newListener.Settings)
+
+	if jsonErrorObj != nil {
+		fmt.Println(jsonErrorObj)
+		return
+	}
+
+result, err := db.Exec("INSERT INTO listeners (name, settings) VALUES ('"+newListener.Name+"', $1)", jsonBytes);
+
+if err != nil {
+	fmt.Println(err)
+	return
+}
+
+fmt.Println(result)
+
 }
