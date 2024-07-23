@@ -14,7 +14,7 @@ type ListenerRepo struct {
 
 type IlistenerRepo interface {
 	GetListenerList()
-	AddListenerDb(newListener entitie.ListenerEntitie)
+	AddListenerDb(newListener entitie.ListenerEntitie) (bool, error)
 }
 
 func InitListenerRepo() *ListenerRepo {
@@ -23,28 +23,36 @@ func InitListenerRepo() *ListenerRepo {
 }
 
 func (l *ListenerRepo) GetListenerList() {
-fmt.Println("получаем список слушателей")
+	fmt.Println("получаем список слушателей")
 
 }
 
-func (l *ListenerRepo) AddListenerDb(newListener entitie.ListenerEntitie){
-fmt.Println("listenerRepo - AddListenerDb")
-var db *sql.DB = l.Conn.ConnDb()
+func (l *ListenerRepo) AddListenerDb(newListener entitie.ListenerEntitie) (bool, error) {
+	fmt.Println("listenerRepo - AddListenerDb")
+	var db *sql.DB = l.Conn.ConnDb()
 
 	jsonBytes, jsonErrorObj := json.Marshal(newListener.Settings)
 
 	if jsonErrorObj != nil {
-		fmt.Println(jsonErrorObj)
-		return
+		return false, fmt.Errorf("Error incorrect Setting object")
 	}
 
-result, err := db.Exec("INSERT INTO listeners (name, settings) VALUES ('"+newListener.Name+"', $1)", jsonBytes);
+	response, err := db.Exec("INSERT INTO listeners (name, settings) VALUES ('"+newListener.Name+"', $1)", jsonBytes)
 
-if err != nil {
-	fmt.Println(err)
-	return
-}
+	if err != nil {
+		return false, fmt.Errorf(err.Error())
+	}
 
-fmt.Println(result)
+	rowsAffected, errResponse := response.RowsAffected()
+
+	if errResponse != nil {
+		return false, fmt.Errorf("При записи в БД произошла ошибка")
+	}
+
+	if rowsAffected > 0 {
+		return true, nil
+	} else {
+		return false, fmt.Errorf("Ошибка записи в БД")
+	}
 
 }
