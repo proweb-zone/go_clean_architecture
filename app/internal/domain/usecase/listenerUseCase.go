@@ -6,15 +6,20 @@ import (
 	"fmt"
 )
 
-func StartListenersUseCase(listenerRepo repository.IlistenerRepo){
-listenerRepo.GetListenerList()
+func StartListenersUseCase(listenerRepo repository.IlistenerRepo) {
+	listenerRepo.GetListenerList()
 
-// получаем список слушателей из БД
-// Запускаем все слушатели через горутины
+	// получаем список слушателей из БД
+	// Запускаем все слушатели через горутины
 }
 
-func AddListenerUseCase(newListener entitie.ListenerEntitie){
-	fmt.Println("add listener use case")
+func AddListenerUseCase(newListener entitie.ListenerEntitie) (bool, error) {
 	var addListenerRepo repository.IlistenerRepo = repository.InitListenerRepo()
-	addListenerRepo.AddListenerDb(newListener)
+	res, err := addListenerRepo.AddListenerDb(newListener)
+
+	if err != nil {
+		return false, fmt.Errorf("Ошибка записи в БД")
+	}
+
+	return res, nil
 }
