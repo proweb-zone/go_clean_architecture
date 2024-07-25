@@ -2,7 +2,6 @@ package web
 
 import (
 	"clean/architector/internal/domain/entitie"
-	"clean/architector/internal/domain/repository"
 	"clean/architector/internal/domain/usecase"
 	"encoding/json"
 	"fmt"
@@ -12,8 +11,7 @@ import (
 
 func StartListenersHandler() {
 	fmt.Println("StartListenerHandler - запуск слушателей событий")
-	var listenerRepo repository.IlistenerRepo = repository.InitListenerRepo()
-	usecase.StartListenersUseCase(listenerRepo)
+	usecase.StartListenersUseCase()
 }
 
 func CreateListener(w http.ResponseWriter, r *http.Request) {

@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type ListenerRepo struct {
@@ -13,7 +14,7 @@ type ListenerRepo struct {
 }
 
 type IlistenerRepo interface {
-	GetListenerList()
+	GetListenerList() []*entitie.ListenerEntitie
 	AddListenerDb(newListener entitie.ListenerEntitie) (bool, error)
 }
 
@@ -22,9 +23,29 @@ func InitListenerRepo() *ListenerRepo {
 	return &ListenerRepo{Conn: connDb}
 }
 
-func (l *ListenerRepo) GetListenerList() {
+func (l *ListenerRepo) GetListenerList() []*entitie.ListenerEntitie {
 	fmt.Println("получаем список слушателей")
+	var db *sql.DB = l.Conn.ConnDb()
+	listenerListDb, err := db.Query("SELECT * FROM listeners")
 
+	defer listenerListDb.Close()
+
+	listenerList := make([]*entitie.ListenerEntitie, 0)
+	for listenerListDb.Next() {
+		listenerItem := new(entitie.ListenerEntitie)
+
+		err := listenerListDb.Scan(&listenerItem.Name, &listenerItem.Settings.Host, &listenerItem.Settings.Port)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		listenerList = append(listenerList, listenerItem)
+	}
+	if err = listenerListDb.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return listenerList
 }
 
 func (l *ListenerRepo) AddListenerDb(newListener entitie.ListenerEntitie) (bool, error) {
