@@ -6,8 +6,13 @@ import (
 	"fmt"
 )
 
-func StartListenersUseCase(listenerRepo repository.IlistenerRepo) {
-	listenerRepo.GetListenerList()
+func StartListenersUseCase() {
+	var listenerRepo repository.IlistenerRepo = repository.InitListenerRepo()
+	var listenerList []*entitie.ListenerEntitie = listenerRepo.GetListenerList()
+
+	for _, item := range listenerList {
+		fmt.Printf("%s, \n", item.Name)
+	}
 
 	// получаем список слушателей из БД
 	// Запускаем все слушатели через горутины

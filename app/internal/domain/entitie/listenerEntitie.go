@@ -1,7 +1,7 @@
 package entitie
 
 type ListenerEntitie struct {
-	Name string `json:"Name"`
+	Name     string   `json:"Name"`
 	Settings Settings `json:"Settings"`
 }
 
