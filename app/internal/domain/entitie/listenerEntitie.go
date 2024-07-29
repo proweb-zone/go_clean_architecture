@@ -1,11 +1,15 @@
 package entitie
 
 type ListenerEntitie struct {
-	Name     string   `json:"Name"`
-	Settings Settings `json:"Settings"`
+	Id     int    `json:"Id, omitempty"`
+	Name   string `json:"Name, omitempty"`
+	Host   string `json:"Host, omitempty"`
+	Port   string `json:"Port, omitempty"`
+	Deelay string `json:"Deelay, omitempty"`
+	Status string `json:"Status, omitempty"`
 }
 
-type Settings struct {
-	Host string `json:"Host"`
-	Port string `json:"port"`
-}
+// type Settings struct {
+// 	Host string `json:"Host, omitempty"`
+// 	Port string `json:"port, omitempty"`
+// }
