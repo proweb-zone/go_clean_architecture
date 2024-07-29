@@ -34,7 +34,7 @@ func (l *ListenerRepo) GetListenerList() []*entitie.ListenerEntitie {
 	for listenerListDb.Next() {
 		listenerItem := new(entitie.ListenerEntitie)
 
-		err := listenerListDb.Scan(&listenerItem.Name, &listenerItem.Settings.Host, &listenerItem.Settings.Port)
+		err := listenerListDb.Scan(&listenerItem.Id, &listenerItem.Name, &listenerItem.Settings)
 		if err != nil {
 			log.Fatal(err)
 		}

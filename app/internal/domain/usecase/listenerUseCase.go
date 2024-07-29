@@ -11,7 +11,7 @@ func StartListenersUseCase() {
 	var listenerList []*entitie.ListenerEntitie = listenerRepo.GetListenerList()
 
 	for _, item := range listenerList {
-		fmt.Printf("%s, \n", item.Name)
+		fmt.Printf("%s, \n", item.Settings)
 	}
 
 	// получаем список слушателей из БД
