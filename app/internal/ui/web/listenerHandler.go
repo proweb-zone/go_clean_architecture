@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"reflect"
 )
 
 func StartListenersHandler() {
@@ -22,7 +21,7 @@ func CreateListener(w http.ResponseWriter, r *http.Request) {
 	err := decoder.Decode(&newListener)
 
 	if err != nil {
-		http.Error(w, "Body MsgTopic not exist", http.StatusBadRequest)
+		http.Error(w, "incorrect Object", http.StatusBadRequest)
 		return
 	}
 
@@ -31,14 +30,13 @@ func CreateListener(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	empty := reflect.ValueOf(newListener.Settings).IsZero()
-	if empty {
-		http.Error(w, "field Settings is empty ", http.StatusBadRequest)
+	if newListener.Host == "" {
+		http.Error(w, "field Host is empty ", http.StatusBadRequest)
 		return
 	}
 
-	if newListener.Settings.Host == "" {
-		http.Error(w, "field Host is empty ", http.StatusBadRequest)
+	if newListener.Port == "" {
+		http.Error(w, "field Port is empty ", http.StatusBadRequest)
 		return
 	}
 

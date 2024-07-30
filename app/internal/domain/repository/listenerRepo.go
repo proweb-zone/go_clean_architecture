@@ -4,9 +4,9 @@ import (
 	"clean/architector/internal/data/postgresql"
 	"clean/architector/internal/domain/entitie"
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"log"
+	"strconv"
 )
 
 type ListenerRepo struct {
@@ -26,7 +26,7 @@ func InitListenerRepo() *ListenerRepo {
 func (l *ListenerRepo) GetListenerList() []*entitie.ListenerEntitie {
 	fmt.Println("получаем список слушателей")
 	var db *sql.DB = l.Conn.ConnDb()
-	listenerListDb, err := db.Query("SELECT * FROM listeners")
+	listenerListDb, err := db.Query("SELECT * FROM listeners WHERE status=1")
 
 	defer listenerListDb.Close()
 
@@ -34,7 +34,7 @@ func (l *ListenerRepo) GetListenerList() []*entitie.ListenerEntitie {
 	for listenerListDb.Next() {
 		listenerItem := new(entitie.ListenerEntitie)
 
-		err := listenerListDb.Scan(&listenerItem.Id, &listenerItem.Name, &listenerItem.Settings)
+		err := listenerListDb.Scan(&listenerItem.Id, &listenerItem.Name, &listenerItem.Host, &listenerItem.Port, &listenerItem.Deelay, &listenerItem.Status)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -52,15 +52,23 @@ func (l *ListenerRepo) AddListenerDb(newListener entitie.ListenerEntitie) (bool,
 	fmt.Println("listenerRepo - AddListenerDb")
 	var db *sql.DB = l.Conn.ConnDb()
 
-	jsonBytes, jsonErrorObj := json.Marshal(newListener.Settings)
+	var buildFieldQuery string = "name, host, port"
+	var buildValueQuery string = "'" + newListener.Name + "', '" + newListener.Host + "', '" + newListener.Port + "'"
 
-	if jsonErrorObj != nil {
-		return false, fmt.Errorf("Error incorrect Setting object")
+	if newListener.Deelay > 0 {
+		buildFieldQuery += ", deelay"
+		buildValueQuery += ", " + strconv.Itoa(newListener.Deelay) + ""
 	}
 
-	response, err := db.Exec("INSERT INTO listeners (name, settings) VALUES ('"+newListener.Name+"', $1)", jsonBytes)
+	if newListener.Status > 0 {
+		buildFieldQuery += ", status"
+		buildValueQuery += ", " + strconv.Itoa(newListener.Status) + ""
+	}
+
+	response, err := db.Exec("INSERT INTO listeners (" + buildFieldQuery + ") VALUES (" + buildValueQuery + ");")
 
 	if err != nil {
+		fmt.Print(err.Error())
 		return false, fmt.Errorf(err.Error())
 	}
 
