@@ -1,11 +1,9 @@
 module clean/architector
 
-go 1.21
-
-toolchain go1.22.1
+go 1.18
 
 require (
-	github.com/confluentinc/confluent-kafka-go/v2 v2.4.0
+	github.com/confluentinc/confluent-kafka-go/v2 v2.5.0
 	github.com/go-chi/chi v1.5.5
 	github.com/go-chi/chi/v5 v5.1.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0

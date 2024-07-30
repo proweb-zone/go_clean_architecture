@@ -25,12 +25,12 @@ func NewServer(config *Config) *Server {
 func (s *Server) StartServer() {
 	fmt.Println("start server")
 	// test.CreateListenerTable() // создаем БД
-	web.StartListenersHandler() // запускаем слушатели
+	// web.StartListenersHandler() // запускаем слушатели
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Post("/kafka/topic/{topic_name}", web.AddMsgToTopicHandler)
+	r.Put("/kafka/topics/{topicname}", web.AddMsgToTopicHandler)
 	r.Post("/kafka/create/listener/", web.CreateListener) // add listener in the DB
-	// r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
+	r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
 	http.ListenAndServe(s.IhttServer.GetAddressHttpServer(), r)
 }
