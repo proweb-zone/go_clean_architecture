@@ -5,11 +5,6 @@ type ListenerEntitie struct {
 	Name   string `json:"Name, omitempty"`
 	Host   string `json:"Host, omitempty"`
 	Port   string `json:"Port, omitempty"`
-	Deelay string `json:"Deelay, omitempty"`
-	Status string `json:"Status, omitempty"`
+	Deelay int    `json:"Deelay, omitempty"`
+	Status int    `json:"Status, omitempty"`
 }
-
-// type Settings struct {
-// 	Host string `json:"Host, omitempty"`
-// 	Port string `json:"port, omitempty"`
-// }

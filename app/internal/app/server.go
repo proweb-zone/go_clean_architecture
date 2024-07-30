@@ -1,10 +1,9 @@
 package app
 
 import (
+	"clean/architector/internal/ui/web"
 	"fmt"
 	"net/http"
-
-	"clean/architector/internal/ui/web"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -13,8 +12,8 @@ import (
 
 type Server struct {
 	IhttServer IHTTPServer
-	IDb IDb
-	IKafka IKafka
+	IDb        IDb
+	IKafka     IKafka
 }
 
 func NewServer(config *Config) *Server {
