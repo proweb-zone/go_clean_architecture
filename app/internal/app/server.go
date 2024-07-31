@@ -31,6 +31,6 @@ func (s *Server) StartServer() {
 	r.Use(middleware.Logger)
 	r.Post("/kafka/topic/{topic_name}", web.AddMsgToTopicHandler)
 	r.Post("/kafka/create/listener/", web.CreateListener) // add listener in the DB
-	// r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
+	r.Post("/kafka/consumer/{topic_name}", web.CreateConsumerHandler)
 	http.ListenAndServe(s.IhttServer.GetAddressHttpServer(), r)
 }
