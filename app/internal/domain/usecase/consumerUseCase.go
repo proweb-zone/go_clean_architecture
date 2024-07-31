@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"clean/architector/internal/domain/entitie"
 	"clean/architector/internal/domain/repository"
 	"context"
 	"fmt"
@@ -89,8 +90,18 @@ func deleteConsumer(ctx context.Context, done chan struct {}){
 	c.Close()
  }
 
- func writeToFile(msg string){
-	//prepairMsg := []byte(msg)
+func AddConsumerUseCase(newConsumer entitie.ConsumerEntitie) (bool, error) {
+	var consumerRepo repository.IConsumerRepo = repository.InitConsumerRepo()
+	res, err := consumerRepo.AddConsumerDb(newConsumer)
+
+	if err != nil {
+		return false, fmt.Errorf("Ошибка записи в БД")
+	}
+
+	return res, nil
+}
+
+func writeToFile(msg string){
 file, err := os.OpenFile("log.txt", os.O_APPEND|os.O_WRONLY, 0600)
 
 if err != nil {

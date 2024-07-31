@@ -2,6 +2,7 @@ package postgresql
 
 import (
 	"database/sql"
+	_ "github.com/lib/pq"
 )
 
 type Connection struct {
